@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Carros</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .car-pronto {
+            background-color: green;
+            color: white;
+        }
+
+        .car-pendente {
+            background-color: yellow;
+        }
+
+        .car-entregue {
+            background-color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Carros</h1>
+
+    <!-- Filtro de Data -->
+    <form method="GET">
+        <label>Data Início:</label>
+        <input type="date" name="start_date" value="{{ start_date }}">
+        <label>Data Fim:</label>
+        <input type="date" name="end_date" value="{{ end_date }}">
+        <button type="submit">Filtrar</button>
+    </form>
+
+    <ul>
+        {% for car in cars %}
+        <li class="{% if car['status_geral'] == 'pronto' %}car-pronto{% elif car['status_geral'] == 'pendente' %}car-pendente{% elif car['status_geral'] == 'entregue' %}car-entregue{% endif %}">
+            <p>Modelo: {{ car['model'] }}</p>
+            <p>Chassi Reduzido: {{ car['chassi_reduzido'] }}</p>
+            <p>Data e Hora de Entrega: {{ car['data_hora_entrega'] }}</p>
+            <a href="{{ url_for('car_details', car_id=loop.index0) }}">Ver Detalhes</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ url_for('add_car') }}">Adicionar Novo Carro</a>
+</body>
+</html>

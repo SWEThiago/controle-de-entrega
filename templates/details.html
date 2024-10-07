@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Carro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .status-aguardando,
+        .status-instalando {
+            background-color: yellow;
+        }
+
+        .status-feito {
+            background-color: green;
+            color: white;
+        }
+
+        .entrega-completa {
+            background-color: transparent !important;
+        }
+
+        .desabilitado {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+    </style>
+    <script>
+        function toggleEntregaCompleta(checkbox) {
+            const items = document.querySelectorAll('.item-status');
+            const forms = document.querySelectorAll('.editable-form');
+            
+            if (checkbox.checked) {
+                items.forEach(item => item.classList.add('entrega-completa'));
+                forms.forEach(form => {
+                    form.classList.add('desabilitado');
+                    form.querySelectorAll('input, select, button').forEach(element => {
+                        element.disabled = true;
+                    });
+                });
+            } else {
+                items.forEach(item => item.classList.remove('entrega-completa'));
+                forms.forEach(form => {
+                    form.classList.remove('desabilitado');
+                    form.querySelectorAll('input, select, button').forEach(element => {
+                        element.disabled = false;
+                    });
+                });
+            }
+
+            // Atualizando o valor do campo hidden e enviando o formulário
+            const hiddenInput = document.getElementById('hidden-entrega');
+            hiddenInput.value = checkbox.checked ? 'sim' : 'nao';
+            document.getElementById('form-entrega').submit();
+        }
+    </script>
+</head>
+<body>
+    <h1>Detalhes do Carro</h1>
+    <p>Modelo: {{ car['model'] }}</p>
+
+    <!-- Alterar Data e Hora de Entrega -->
+    <form method="POST">
+        <label>Data e Hora de Entrega:</label>
+        <input type="datetime-local" name="data_hora_entrega" value="{{ car['data_hora_entrega'] }}" required>
+        <button type="submit">Atualizar Data e Hora</button>
+    </form>
+
+    <!-- Alterar Status de Chegada -->
+    <form method="POST">
+        <label>Status de Chegada:</label>
+        <select name="status_chegada" onchange="this.form.submit()">
+            <option value="Aguardando Chegada" {% if car['status_chegada'] == 'Aguardando Chegada' %}selected{% endif %}>Aguardando Chegada</option>
+            <option value="Recebido" {% if car['status_chegada'] == 'Recebido' %}selected{% endif %}>Recebido</option>
+        </select>
+    </form>
+
+    <!-- Nome do Consultor -->
+    <form method="POST">
+        <label>Consultor Responsável:</label>
+        <input type="text" name="consultor" value="{{ car['consultor'] }}" onchange="this.form.submit()">
+    </form>
+
+    <p>Nome do Cliente: {{ car['cliente'] }}</p>
+
+    <!-- Formulário para Adicionar Acessório ou Serviço de Estética -->
+    <h2>Adicionar Item</h2>
+    <form method="POST">
+        <label>Descrição:</label>
+        <input type="text" name="descricao" required>
+        <label>Categoria:</label>
+        <select name="categoria" required>
+            <option value="Acessório">Acessório</option>
+            <option value="Serviço de Estética">Serviço de Estética</option>
+        </select>
+        <button type="submit">Adicionar</button>
+    </form>
+
+    <h2>Acessórios</h2>
+    <ul>
+        {% for acessorio in car['acessorios'] %}
+        <li class="item-status {% if acessorio['status'] == 'Feito' %}status-feito{% elif acessorio['status'] in ['Aguardando Peça', 'Instalando'] %}status-aguardando{% endif %}">
+            {{ acessorio['descricao'] }}
+            <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" class="editable-form" style="display: inline;">
+                <input type="hidden" name="update_acessorio" value="{{ loop.index0 }}">
+                <label>Tipo:</label>
+                <select name="tipo_acessorio" onchange="this.form.submit()">
+                    <option value="Cortesia" {% if acessorio['tipo'] == 'Cortesia' %}selected{% endif %}>Cortesia</option>
+                    <option value="$" {% if acessorio['tipo'] == '$' %}selected{% endif %}>$</option>
+                </select>
+                <label>Status:</label>
+                <select name="status_acessorio" onchange="this.form.submit()">
+                    <option value="Aguardando Peça" {% if acessorio['status'] == 'Aguardando Peça' %}selected{% endif %}>Aguardando Peça</option>
+                    <option value="Feito" {% if acessorio['status'] == 'Feito' %}selected{% endif %}>Feito</option>
+                    <option value="Instalando" {% if acessorio['status'] == 'Instalando' %}selected{% endif %}>Instalando</option>
+                </select>
+            </form>
+            <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" style="display: inline;">
+                <input type="hidden" name="remove_acessorio" value="{{ loop.index0 }}">
+                <button type="submit">Excluir</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Serviços de Estética</h2>
+    <ul>
+        {% for servico in car['servicos_estetica'] %}
+        <li class="item-status {% if servico['status'] == 'Feito' %}status-feito{% elif servico['status'] in ['Aguardando Peça', 'Instalando'] %}status-aguardando{% endif %}">
+            {{ servico['descricao'] }}
+            <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" class="editable-form" style="display: inline;">
+                <input type="hidden" name="update_servico" value="{{ loop.index0 }}">
+                <label>Tipo:</label>
+                <select name="tipo_servico" onchange="this.form.submit()">
+                    <option value="Cortesia" {% if servico['tipo'] == 'Cortesia' %}selected{% endif %}>Cortesia</option>
+                    <option value="$" {% if servico['tipo'] == '$' %}selected{% endif %}>$</option>
+                </select>
+                <label>Status:</label>
+                <select name="status_servico" onchange="this.form.submit()">
+                    <option value="Aguardando Peça" {% if servico['status'] == 'Aguardando Peça' %}selected{% endif %}>Aguardando Peça</option>
+                    <option value="Feito" {% if servico['status'] == 'Feito' %}selected{% endif %}>Feito</option>
+                    <option value="Instalando" {% if servico['status'] == 'Instalando' %}selected{% endif %}>Instalando</option>
+                </select>
+            </form>
+            <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" style="display: inline;">
+                <input type="hidden" name="remove_servico" value="{{ loop.index0 }}">
+                <button type="submit">Excluir</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Checkbox para Marcar Entrega Completa -->
+    <h3>Entrega do Carro</h3>
+    <form id="form-entrega" method="POST" action="{{ url_for('car_details', car_id=car_id) }}">
+        <input type="hidden" name="entrega" id="hidden-entrega" value="{{ 'sim' if car['entrega'] == 'sim' else 'nao' }}">
+        <label>
+            <input type="checkbox" name="checkbox_entrega" onclick="toggleEntregaCompleta(this)" {% if car['entrega'] == 'sim' %}checked{% endif %}> Marcar como entregue
+        </label>
+    </form>
+
+    <a href="{{ url_for('index') }}">Voltar</a>
+</body>
+</html>

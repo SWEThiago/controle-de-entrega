@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Carro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        function addAcessorio() {
+            const container = document.getElementById('acessorios-container');
+            const div = document.createElement('div');
+            div.classList.add('acessorio-item');
+            div.innerHTML = `
+                <label>Descrição do Acessório:</label>
+                <input type="text" name="acessorio" required>
+                <label>Tipo:</label>
+                <select name="tipo_acessorio" required>
+                    <option value="Brinde">Brinde</option>
+                    <option value="$">$</option>
+                </select>
+            `;
+            container.appendChild(div);
+        }
+    </script>
+</head>
+<body>
+    <h1>Adicionar Novo Carro</h1>
+    <form action="{{ url_for('add_car') }}" method="POST">
+        <label for="vendedor">Nome do Vendedor:</label>
+        <input type="text" name="vendedor" required><br><br>
+
+        <label for="model">Modelo do Veículo:</label>
+        <input type="text" name="model" required><br><br>
+
+        <label for="color">Cor do Veículo:</label>
+        <input type="text" name="color" required><br><br>
+
+        <label for="chassi_reduzido">Chassi Reduzido:</label>
+        <input type="text" name="chassi_reduzido" required><br><br>
+
+        <label for="cliente">Nome do Cliente:</label>
+        <input type="text" name="cliente" required><br><br>
+
+        <label for="status_chegada">Status de Chegada:</label>
+        <select name="status_chegada" required>
+            <option value="Aguardando Chegada">Aguardando Chegada</option>
+            <option value="Recebido">Recebido</option>
+        </select><br><br>
+
+        <label for="data_hora_entrega">Data e Hora da Entrega:</label>
+        <input type="datetime-local" name="data_hora_entrega" required><br><br>
+
+       
+
+        <button type="submit">Adicionar Carro</button>
+    </form>
+    <a href="{{ url_for('index') }}">Voltar</a>
+</body>
+</html>

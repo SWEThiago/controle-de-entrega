@@ -1,0 +1,85 @@
+[
+    {
+        "vendedor": "Michele",
+        "model": "rampage rebel",
+        "color": "Branco",
+        "chassi_reduzido": "KR8494",
+        "cliente": "Luis",
+        "status_chegada": "Recebido",
+        "data_hora_entrega": "2024-10-09T08:30",
+        "acessorios": [
+            {
+                "descricao": "teste 1",
+                "tipo": "Cortesia",
+                "status": "Feito"
+            }
+        ],
+        "servicos_estetica": [
+            {
+                "descricao": "teste 2",
+                "tipo": "Cortesia",
+                "status": "Feito"
+            }
+        ],
+        "consultor": "",
+        "entrega": "sim"
+    },
+    {
+        "vendedor": "Junior",
+        "model": "Rampage Laramie",
+        "color": "Prata",
+        "chassi_reduzido": "KR85481",
+        "cliente": "Transportadora pimenta",
+        "status_chegada": "Recebido",
+        "data_hora_entrega": "2024-10-09T10:00",
+        "acessorios": [
+            {
+                "descricao": "Capota paralela",
+                "tipo": "Cortesia",
+                "status": "Feito"
+            },
+            {
+                "descricao": "Tapete ca\u00e7amba original",
+                "tipo": "Cortesia",
+                "status": "Feito"
+            },
+            {
+                "descricao": "Tapete interno borda alta original",
+                "tipo": "Cortesia",
+                "status": "Feito"
+            },
+            {
+                "descricao": "Estribo original",
+                "tipo": "Cortesia",
+                "status": "Aguardando Pe\u00e7a"
+            },
+            {
+                "descricao": "Revisao de Entrega",
+                "tipo": "Cortesia",
+                "status": "Feito"
+            }
+        ],
+        "servicos_estetica": [
+            {
+                "descricao": "Prepara\u00e7ao do veiculo",
+                "tipo": "Cortesia",
+                "status": "Feito"
+            }
+        ],
+        "consultor": "Leticia",
+        "entrega": "nao"
+    },
+    {
+        "vendedor": "thiago teste",
+        "model": "teste3",
+        "color": "preta",
+        "chassi_reduzido": "sdsf54646",
+        "cliente": "teste2",
+        "status_chegada": "Aguardando Chegada",
+        "data_hora_entrega": "2024-10-08T17:09",
+        "acessorios": [],
+        "servicos_estetica": [],
+        "consultor": "",
+        "entrega": "nao"
+    }
+]
