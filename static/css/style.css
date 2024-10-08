@@ -233,25 +233,25 @@ h1, h2, h3 {
 
 /* Cores de status */
 .status-aguardando-details {
-    background-color: rgba(255, 255, 0, 0.5);
-    color: black;
+    background-color: rgba(255, 255, 0, 0.2) !important;
+    color: black !important;
 }
 
 .status-instalando-details {
-    background-color: rgba(255, 255, 0, 0.5);
-    color: black;
+    background-color: rgba(255, 187, 0, 0.2) !important;
+    color: black !important;
 }
 
 .status-feito-details {
-    background-color: rgba(0, 128, 0, 0.5);
-    color: white;
+    background-color: rgba(0, 128, 0, 0.2) !important;
+    color: white !important;
 }
 
-/* Entrega completa - Fundo transparente */
 .entrega-completa-details {
     background-color: transparent !important;
-    color: inherit;
+    color: inherit !important;
 }
+
 
 /* Desabilitado */
 .desabilitado-details {

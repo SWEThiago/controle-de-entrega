@@ -1,1 +1,22 @@
-[]
+[
+    {
+        "id": "09d1324b-5bac-4f7d-9a3b-7227a807d73e",
+        "vendedor": "thiago",
+        "model": "rampage rebel",
+        "color": "preta",
+        "chassi_reduzido": "sdsf54646",
+        "cliente": "Laura",
+        "status_chegada": "Recebido",
+        "data_hora_entrega": "2024-10-08T17:31",
+        "acessorios": [
+            {
+                "descricao": "teste 1",
+                "tipo": "Cortesia",
+                "status": "Aguardando Pe\u00e7a"
+            }
+        ],
+        "servicos_estetica": [],
+        "consultor": "",
+        "entrega": "nao"
+    }
+]
