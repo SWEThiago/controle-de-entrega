@@ -1,50 +1,288 @@
+/* Estilos gerais */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: #2c2c2c; /* Fundo cinza escuro */
+    color: #f0f0f0; /* Texto claro */
+    font-family: 'Arial', sans-serif;
     margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container centralizado */
+.container {
+    background-color: #3c3c3c; /* Cinza claro para o formulário */
     padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 400px;
 }
 
+/* Título */
 h1 {
-    color: #444;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffffff;
 }
 
-a {
-    text-decoration: none;
-    color: #007bff;
+/* Estilos para o formulário */
+.car-form {
+    display: flex;
+    flex-direction: column;
 }
 
-a:hover {
-    text-decoration: underline;
+.form-group {
+    margin-bottom: 15px;
 }
 
-form {
-    margin-top: 20px;
+.form-group label {
+    color: #ffffff;
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
 }
 
-button {
-    background-color: #007bff;
-    color: white;
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #999999; /* Borda contrastante */
+    border-radius: 5px;
+    background-color: #f0f0f0; /* Cinza claro para os inputs */
+    color: #333333;
+    box-sizing: border-box;
+}
+
+/* Botão de submissão */
+.btn-submit {
+    background-color: #20c997; /* Verde-água */
+    color: #ffffff;
+    padding: 10px 15px;
     border: none;
-    padding: 10px;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
 }
 
-button:hover {
-    background-color: #0056b3;
+.btn-submit:hover {
+    background-color: #17a085; /* Sombra mais escura ao hover */
 }
 
-.add-car-button {
-    display: inline-block;
-    background-color: #007bff;
-    color: white;
+/* Botão de voltar */
+.btn-back {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
     padding: 10px;
+    background-color: #555555; /* Botão de voltar com cor cinza contrastante */
+    color: #ffffff;
     text-decoration: none;
     border-radius: 5px;
-    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
 }
 
-.add-car-button:hover {
-    background-color: #0056b3;
+.btn-back:hover {
+    background-color: #444444; /* Sombra mais escura ao hover */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .form-group input,
+    .form-group select {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .btn-submit {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .btn-back {
+        padding: 8px;
+    }
+}
+-----------------------------------------------------------------------------
+/* Estilos gerais para a página de detalhes */
+body.details-page {
+    background-color: #2c2c2c; /* Fundo cinza escuro */
+    color: #f0f0f0; /* Texto claro */
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container centralizado */
+.container-details {
+    background-color: #3c3c3c; /* Fundo cinza mais claro */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 500px;
+    margin-bottom: 20px;
+}
+
+/* Títulos */
+h1, h2, h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+/* Estilos para o formulário */
+.details-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.details-form label {
+    color: #ffffff;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.details-form input,
+.details-form select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #999999;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    color: #333333;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+/* Botão de submissão (Adicionar e Atualizar) */
+.btn-submit-details {
+    background-color: #20c997; /* Verde-água */
+    color: #ffffff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-submit-details:hover {
+    background-color: #17a085;
+}
+
+/* Botão de excluir */
+.btn-delete-details {
+    background-color: #e74c3c; /* Vermelho */
+    color: #ffffff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-delete-details:hover {
+    background-color: #c0392b;
+}
+
+/* Botão de voltar */
+.btn-back-details {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #555555;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-back-details:hover {
+    background-color: #444444;
+}
+
+/* Estilos para os itens */
+.item-status-details {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    list-style-type: none;
+}
+
+/* Cores de status */
+.status-aguardando-details {
+    background-color: yellow;
+    color: black;
+}
+
+.status-instalando-details {
+    background-color: yellow;
+    color: black;
+}
+
+.status-feito-details {
+    background-color: green;
+    color: white;
+}
+
+/* Entrega completa - Fundo transparente */
+.entrega-completa-details {
+    background-color: transparent !important;
+    color: inherit;
+}
+
+/* Desabilitado */
+.desabilitado-details {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container-details {
+        width: 100%;
+        padding: 15px;
+    }
+
+    h1, h2, h3 {
+        font-size: 24px;
+    }
+
+    .details-form input,
+    .details-form select {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .btn-submit-details,
+    .btn-delete-details {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .btn-back-details {
+        padding: 8px;
+    }
 }

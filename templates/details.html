@@ -4,161 +4,311 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Carro</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
-        .status-aguardando,
-        .status-instalando {
-            background-color: yellow;
+        /* Estilos exclusivos da página de detalhes */
+        body.details-page {
+            background-color: #2c2c2c;
+            color: #f0f0f0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
-        .status-feito {
+        .container-details {
+            background-color: #3c3c3c;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        /* Estilos do formulário */
+        .details-form {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .details-form label {
+            color: #ffffff;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .details-form input,
+        .details-form select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #999999;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            color: #333333;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        .btn-submit-details {
+            background-color: #20c997;
+            color: #ffffff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-submit-details:hover {
+            background-color: #17a085;
+        }
+
+        .btn-delete-details {
+            background-color: #e74c3c;
+            color: #ffffff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-delete-details:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-back-details {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #555555;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-back-details:hover {
+            background-color: #444444;
+        }
+
+        .item-status-details {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            list-style-type: none;
+        }
+
+        .status-aguardando-details {
+            background-color: yellow;
+            color: black;
+        }
+
+        .status-instalando-details {
+            background-color: yellow;
+            color: black;
+        }
+
+        .status-feito-details {
             background-color: green;
             color: white;
         }
 
-        .entrega-completa {
+        .entrega-completa-details {
             background-color: transparent !important;
+            color: inherit;
         }
 
-        .desabilitado {
+        .desabilitado-details {
             pointer-events: none;
             opacity: 0.6;
         }
+
+        @media (max-width: 768px) {
+            .container-details {
+                width: 100%;
+                padding: 15px;
+            }
+
+            h1, h2, h3 {
+                font-size: 24px;
+            }
+
+            .details-form input,
+            .details-form select {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .btn-submit-details,
+            .btn-delete-details {
+                padding: 8px;
+                font-size: 14px;
+            }
+
+            .btn-back-details {
+                padding: 8px;
+            }
+        }
     </style>
     <script>
-        function toggleEntregaCompleta(checkbox) {
-            const items = document.querySelectorAll('.item-status');
-            const forms = document.querySelectorAll('.editable-form');
+        function aplicarEstadoEntrega(checkbox) {
+            const items = document.querySelectorAll('.item-status-details');
+            const forms = document.querySelectorAll('.editable-form-details');
             
             if (checkbox.checked) {
-                items.forEach(item => item.classList.add('entrega-completa'));
+                items.forEach(item => item.classList.add('entrega-completa-details'));
                 forms.forEach(form => {
-                    form.classList.add('desabilitado');
+                    form.classList.add('desabilitado-details');
                     form.querySelectorAll('input, select, button').forEach(element => {
                         element.disabled = true;
                     });
                 });
             } else {
-                items.forEach(item => item.classList.remove('entrega-completa'));
+                items.forEach(item => item.classList.remove('entrega-completa-details'));
                 forms.forEach(form => {
-                    form.classList.remove('desabilitado');
+                    form.classList.remove('desabilitado-details');
                     form.querySelectorAll('input, select, button').forEach(element => {
                         element.disabled = false;
                     });
                 });
             }
+        }
 
-            // Atualizando o valor do campo hidden e enviando o formulário
+        window.onload = function() {
+            const checkbox = document.getElementById('checkbox-entrega');
+            aplicarEstadoEntrega(checkbox);
+        };
+
+        function toggleEntregaCompleta(checkbox) {
             const hiddenInput = document.getElementById('hidden-entrega');
             hiddenInput.value = checkbox.checked ? 'sim' : 'nao';
             document.getElementById('form-entrega').submit();
         }
     </script>
 </head>
-<body>
-    <h1>Detalhes do Carro</h1>
-    <p>Modelo: {{ car['model'] }}</p>
+<body class="details-page">
+    <div class="container-details">
+        <h1>Detalhes do Carro</h1>
 
-    <!-- Alterar Data e Hora de Entrega -->
-    <form method="POST">
-        <label>Data e Hora de Entrega:</label>
-        <input type="datetime-local" name="data_hora_entrega" value="{{ car['data_hora_entrega'] }}" required>
-        <button type="submit">Atualizar Data e Hora</button>
-    </form>
+        <!-- Exibindo as informações principais -->
+        <p><strong>Modelo:</strong> {{ car['model'] }}</p>
+        <p><strong>Nome do Vendedor:</strong> {{ car['vendedor'] }}</p>
+        <p><strong>Cor do Veículo:</strong> {{ car['color'] }}</p>
+        <p><strong>Chassi Reduzido:</strong> {{ car['chassi_reduzido'] }}</p>
+        <p><strong>Nome do Cliente:</strong> {{ car['cliente'] }}</p>
 
-    <!-- Alterar Status de Chegada -->
-    <form method="POST">
-        <label>Status de Chegada:</label>
-        <select name="status_chegada" onchange="this.form.submit()">
-            <option value="Aguardando Chegada" {% if car['status_chegada'] == 'Aguardando Chegada' %}selected{% endif %}>Aguardando Chegada</option>
-            <option value="Recebido" {% if car['status_chegada'] == 'Recebido' %}selected{% endif %}>Recebido</option>
-        </select>
-    </form>
+        <!-- Alterar Data e Hora de Entrega -->
+        <form method="POST" class="details-form">
+            <label>Data e Hora de Entrega:</label>
+            <input type="datetime-local" name="data_hora_entrega" value="{{ car['data_hora_entrega'] }}" required>
+            <button type="submit" class="btn-submit-details">Atualizar Data e Hora</button>
+        </form>
 
-    <!-- Nome do Consultor -->
-    <form method="POST">
-        <label>Consultor Responsável:</label>
-        <input type="text" name="consultor" value="{{ car['consultor'] }}" onchange="this.form.submit()">
-    </form>
+        <!-- Alterar Status de Chegada -->
+        <form method="POST" class="details-form">
+            <label>Status de Chegada:</label>
+            <select name="status_chegada" onchange="this.form.submit()">
+                <option value="Aguardando Chegada" {% if car['status_chegada'] == 'Aguardando Chegada' %}selected{% endif %}>Aguardando Chegada</option>
+                <option value="Recebido" {% if car['status_chegada'] == 'Recebido' %}selected{% endif %}>Recebido</option>
+            </select>
+        </form>
 
-    <p>Nome do Cliente: {{ car['cliente'] }}</p>
+        <!-- Nome do Consultor -->
+        <form method="POST" class="details-form">
+            <label>Consultor Responsável:</label>
+            <input type="text" name="consultor" value="{{ car['consultor'] }}" onchange="this.form.submit()">
+        </form>
 
-    <!-- Formulário para Adicionar Acessório ou Serviço de Estética -->
-    <h2>Adicionar Item</h2>
-    <form method="POST">
-        <label>Descrição:</label>
-        <input type="text" name="descricao" required>
-        <label>Categoria:</label>
-        <select name="categoria" required>
-            <option value="Acessório">Acessório</option>
-            <option value="Serviço de Estética">Serviço de Estética</option>
-        </select>
-        <button type="submit">Adicionar</button>
-    </form>
+        <!-- Formulário para Adicionar Acessório ou Serviço de Estética -->
+        <h2>Adicionar Item</h2>
+        <form method="POST" class="details-form">
+            <label>Descrição:</label>
+            <input type="text" name="descricao" required>
+            <label>Categoria:</label>
+            <select name="categoria" required>
+                <option value="Acessório">Acessório</option>
+                <option value="Serviço de Estética">Serviço de Estética</option>
+            </select>
+            <button type="submit" class="btn-submit-details">Adicionar</button>
+        </form>
 
-    <h2>Acessórios</h2>
-    <ul>
-        {% for acessorio in car['acessorios'] %}
-        <li class="item-status {% if acessorio['status'] == 'Feito' %}status-feito{% elif acessorio['status'] in ['Aguardando Peça', 'Instalando'] %}status-aguardando{% endif %}">
-            {{ acessorio['descricao'] }}
-            <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" class="editable-form" style="display: inline;">
-                <input type="hidden" name="update_acessorio" value="{{ loop.index0 }}">
-                <label>Tipo:</label>
-                <select name="tipo_acessorio" onchange="this.form.submit()">
-                    <option value="Cortesia" {% if acessorio['tipo'] == 'Cortesia' %}selected{% endif %}>Cortesia</option>
-                    <option value="$" {% if acessorio['tipo'] == '$' %}selected{% endif %}>$</option>
-                </select>
-                <label>Status:</label>
-                <select name="status_acessorio" onchange="this.form.submit()">
-                    <option value="Aguardando Peça" {% if acessorio['status'] == 'Aguardando Peça' %}selected{% endif %}>Aguardando Peça</option>
-                    <option value="Feito" {% if acessorio['status'] == 'Feito' %}selected{% endif %}>Feito</option>
-                    <option value="Instalando" {% if acessorio['status'] == 'Instalando' %}selected{% endif %}>Instalando</option>
-                </select>
-            </form>
-            <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" style="display: inline;">
-                <input type="hidden" name="remove_acessorio" value="{{ loop.index0 }}">
-                <button type="submit">Excluir</button>
-            </form>
-        </li>
-        {% endfor %}
-    </ul>
+        <h2>Acessórios</h2>
+        <ul>
+            {% for acessorio in car['acessorios'] %}
+            <li class="item-status-details {% if acessorio['status'] == 'Feito' %}status-feito-details{% elif acessorio['status'] in ['Aguardando Peça', 'Instalando'] %}status-aguardando-details{% endif %}">
+                {{ acessorio['descricao'] }}
+                <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" class="editable-form-details" style="display: inline;">
+                    <input type="hidden" name="update_acessorio" value="{{ loop.index0 }}">
+                    <label>Tipo:</label>
+                    <select name="tipo_acessorio" onchange="this.form.submit()">
+                        <option value="Cortesia" {% if acessorio['tipo'] == 'Cortesia' %}selected{% endif %}>Cortesia</option>
+                        <option value="$" {% if acessorio['tipo'] == '$' %}selected{% endif %}>$</option>
+                    </select>
+                    <label>Status:</label>
+                    <select name="status_acessorio" onchange="this.form.submit()">
+                        <option value="Aguardando Peça" {% if acessorio['status'] == 'Aguardando Peça' %}selected{% endif %}>Aguardando Peça</option>
+                        <option value="Feito" {% if acessorio['status'] == 'Feito' %}selected{% endif %}>Feito</option>
+                        <option value="Instalando" {% if acessorio['status'] == 'Instalando' %}selected{% endif %}>Instalando</option>
+                    </select>
+                </form>
+                <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" style="display: inline;">
+                    <input type="hidden" name="remove_acessorio" value="{{ loop.index0 }}">
+                    <button type="submit" class="btn-delete-details">Excluir</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
 
-    <h2>Serviços de Estética</h2>
-    <ul>
-        {% for servico in car['servicos_estetica'] %}
-        <li class="item-status {% if servico['status'] == 'Feito' %}status-feito{% elif servico['status'] in ['Aguardando Peça', 'Instalando'] %}status-aguardando{% endif %}">
-            {{ servico['descricao'] }}
-            <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" class="editable-form" style="display: inline;">
-                <input type="hidden" name="update_servico" value="{{ loop.index0 }}">
-                <label>Tipo:</label>
-                <select name="tipo_servico" onchange="this.form.submit()">
-                    <option value="Cortesia" {% if servico['tipo'] == 'Cortesia' %}selected{% endif %}>Cortesia</option>
-                    <option value="$" {% if servico['tipo'] == '$' %}selected{% endif %}>$</option>
-                </select>
-                <label>Status:</label>
-                <select name="status_servico" onchange="this.form.submit()">
-                    <option value="Aguardando Peça" {% if servico['status'] == 'Aguardando Peça' %}selected{% endif %}>Aguardando Peça</option>
-                    <option value="Feito" {% if servico['status'] == 'Feito' %}selected{% endif %}>Feito</option>
-                    <option value="Instalando" {% if servico['status'] == 'Instalando' %}selected{% endif %}>Instalando</option>
-                </select>
-            </form>
-            <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" style="display: inline;">
-                <input type="hidden" name="remove_servico" value="{{ loop.index0 }}">
-                <button type="submit">Excluir</button>
-            </form>
-        </li>
-        {% endfor %}
-    </ul>
+        <h2>Serviços de Estética</h2>
+        <ul>
+            {% for servico in car['servicos_estetica'] %}
+            <li class="item-status-details {% if servico['status'] == 'Feito' %}status-feito-details{% elif servico['status'] in ['Aguardando Peça', 'Instalando'] %}status-aguardando-details{% endif %}">
+                {{ servico['descricao'] }}
+                <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" class="editable-form-details" style="display: inline;">
+                    <input type="hidden" name="update_servico" value="{{ loop.index0 }}">
+                    <label>Tipo:</label>
+                    <select name="tipo_servico" onchange="this.form.submit()">
+                        <option value="Cortesia" {% if servico['tipo'] == 'Cortesia' %}selected{% endif %}>Cortesia</option>
+                        <option value="$" {% if servico['tipo'] == '$' %}selected{% endif %}>$</option>
+                    </select>
+                    <label>Status:</label>
+                    <select name="status_servico" onchange="this.form.submit()">
+                        <option value="Aguardando Peça" {% if servico['status'] == 'Aguardando Peça' %}selected{% endif %}>Aguardando Peça</option>
+                        <option value="Feito" {% if servico['status'] == 'Feito' %}selected{% endif %}>Feito</option>
+                        <option value="Instalando" {% if servico['status'] == 'Instalando' %}selected{% endif %}>Instalando</option>
+                    </select>
+                </form>
+                <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" style="display: inline;">
+                    <input type="hidden" name="remove_servico" value="{{ loop.index0 }}">
+                    <button type="submit" class="btn-delete-details">Excluir</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
 
-    <!-- Checkbox para Marcar Entrega Completa -->
-    <h3>Entrega do Carro</h3>
-    <form id="form-entrega" method="POST" action="{{ url_for('car_details', car_id=car_id) }}">
-        <input type="hidden" name="entrega" id="hidden-entrega" value="{{ 'sim' if car['entrega'] == 'sim' else 'nao' }}">
-        <label>
-            <input type="checkbox" name="checkbox_entrega" onclick="toggleEntregaCompleta(this)" {% if car['entrega'] == 'sim' %}checked{% endif %}> Marcar como entregue
-        </label>
-    </form>
+        <h3>Entrega do Carro</h3>
+        <form id="form-entrega" method="POST" action="{{ url_for('car_details', car_id=car_id) }}">
+            <input type="hidden" name="entrega" id="hidden-entrega" value="{{ 'sim' if car['entrega'] == 'sim' else 'nao' }}">
+            <label>
+                <input type="checkbox" id="checkbox-entrega" name="checkbox_entrega" onclick="toggleEntregaCompleta(this)" {% if car['entrega'] == 'sim' %}checked{% endif %}> Marcar como entregue
+            </label>
+        </form>
 
-    <a href="{{ url_for('index') }}">Voltar</a>
+        <a href="{{ url_for('index') }}" class="btn-back-details">Voltar</a>
+    </div>
 </body>
 </html>

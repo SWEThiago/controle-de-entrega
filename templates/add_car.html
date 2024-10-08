@@ -24,36 +24,43 @@
     </script>
 </head>
 <body>
-    <h1>Adicionar Novo Carro</h1>
-    <form action="{{ url_for('add_car') }}" method="POST">
-        <label for="vendedor">Nome do Vendedor:</label>
-        <input type="text" name="vendedor" required><br><br>
-
-        <label for="model">Modelo do Veículo:</label>
-        <input type="text" name="model" required><br><br>
-
-        <label for="color">Cor do Veículo:</label>
-        <input type="text" name="color" required><br><br>
-
-        <label for="chassi_reduzido">Chassi Reduzido:</label>
-        <input type="text" name="chassi_reduzido" required><br><br>
-
-        <label for="cliente">Nome do Cliente:</label>
-        <input type="text" name="cliente" required><br><br>
-
-        <label for="status_chegada">Status de Chegada:</label>
-        <select name="status_chegada" required>
-            <option value="Aguardando Chegada">Aguardando Chegada</option>
-            <option value="Recebido">Recebido</option>
-        </select><br><br>
-
-        <label for="data_hora_entrega">Data e Hora da Entrega:</label>
-        <input type="datetime-local" name="data_hora_entrega" required><br><br>
-
-       
-
-        <button type="submit">Adicionar Carro</button>
-    </form>
-    <a href="{{ url_for('index') }}">Voltar</a>
+    <div class="container">
+        <h1>Adicionar Novo Carro</h1>
+        <form action="{{ url_for('add_car') }}" method="POST" class="car-form">
+            <div class="form-group">
+                <label for="vendedor">Nome do Vendedor:</label>
+                <input type="text" name="vendedor" required>
+            </div>
+            <div class="form-group">
+                <label for="model">Modelo do Veículo:</label>
+                <input type="text" name="model" required>
+            </div>
+            <div class="form-group">
+                <label for="color">Cor do Veículo:</label>
+                <input type="text" name="color" required>
+            </div>
+            <div class="form-group">
+                <label for="chassi_reduzido">Chassi Reduzido:</label>
+                <input type="text" name="chassi_reduzido" required>
+            </div>
+            <div class="form-group">
+                <label for="cliente">Nome do Cliente:</label>
+                <input type="text" name="cliente" required>
+            </div>
+            <div class="form-group">
+                <label for="status_chegada">Status de Chegada:</label>
+                <select name="status_chegada" required>
+                    <option value="Aguardando Chegada">Aguardando Chegada</option>
+                    <option value="Recebido">Recebido</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="data_hora_entrega">Data e Hora da Entrega:</label>
+                <input type="datetime-local" name="data_hora_entrega" required>
+            </div>
+            <button type="submit" class="btn-submit">Adicionar Carro</button>
+        </form>
+        <a href="{{ url_for('index') }}" class="btn-back">Voltar</a>
+    </div>
 </body>
 </html>

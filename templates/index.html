@@ -4,45 +4,178 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Carros</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
+        /* Estilos exclusivos da página de lista de carros */
+        body.index-page {
+            background-color: #2c2c2c; /* Fundo cinza escuro */
+            color: #f0f0f0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container-index {
+            background-color: #3c3c3c;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        /* Estilo do filtro de data */
+        .filter-form {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .filter-form label {
+            font-size: 14px;
+            color: #ffffff;
+        }
+
+        .filter-form input {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #999999;
+            background-color: #f0f0f0;
+            color: #333333;
+        }
+
+        .filter-form button {
+            background-color: #20c997;
+            color: #ffffff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .filter-form button:hover {
+            background-color: #17a085;
+        }
+
+        /* Lista de carros */
+        ul.car-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul.car-list li {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            background-color: #444444;
+            color: #ffffff;
+        }
+
+        /* As cores de status dos carros serão aplicadas pela lógica do backend */
         .car-pronto {
-            background-color: green;
+            background-color: green !important;
             color: white;
         }
 
         .car-pendente {
-            background-color: yellow;
+            background-color: yellow !important;
+            color: black;
         }
 
         .car-entregue {
-            background-color: transparent;
+            background-color: transparent !important;
+            color: white;
+        }
+
+        /* Link de detalhes */
+        ul.car-list a {
+            color: #20c997;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        ul.car-list a:hover {
+            color: #17a085;
+        }
+
+        /* Botão adicionar carro */
+        .btn-add-car {
+            background-color: #20c997;
+            color: #ffffff;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-add-car:hover {
+            background-color: #17a085;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container-index {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .filter-form {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .filter-form label,
+            .filter-form input,
+            .filter-form button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            ul.car-list li {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
-<body>
-    <h1>Lista de Carros</h1>
+<body class="index-page">
+    <div class="container-index">
+        <h1>Lista de Carros</h1>
 
-    <!-- Filtro de Data -->
-    <form method="GET">
-        <label>Data Início:</label>
-        <input type="date" name="start_date" value="{{ start_date }}">
-        <label>Data Fim:</label>
-        <input type="date" name="end_date" value="{{ end_date }}">
-        <button type="submit">Filtrar</button>
-    </form>
+        <!-- Filtro de Data -->
+        <form method="GET" class="filter-form">
+            <label>Data Início:</label>
+            <input type="date" name="start_date" value="{{ start_date }}">
+            <label>Data Fim:</label>
+            <input type="date" name="end_date" value="{{ end_date }}">
+            <button type="submit">Filtrar</button>
+        </form>
 
-    <ul>
-        {% for car in cars %}
-        <li class="{% if car['status_geral'] == 'pronto' %}car-pronto{% elif car['status_geral'] == 'pendente' %}car-pendente{% elif car['status_geral'] == 'entregue' %}car-entregue{% endif %}">
-            <p>Modelo: {{ car['model'] }}</p>
-            <p>Chassi Reduzido: {{ car['chassi_reduzido'] }}</p>
-            <p>Data e Hora de Entrega: {{ car['data_hora_entrega'] }}</p>
-            <a href="{{ url_for('car_details', car_id=loop.index0) }}">Ver Detalhes</a>
-        </li>
-        {% endfor %}
-    </ul>
+        <ul class="car-list">
+            {% for car in cars %}
+            <li class="{% if car['status_geral'] == 'pronto' %}car-pronto{% elif car['status_geral'] == 'pendente' %}car-pendente{% elif car['status_geral'] == 'entregue' %}car-entregue{% endif %}">
+                <p><strong>Modelo:</strong> {{ car['model'] }}</p>
+                <p><strong>Chassi Reduzido:</strong> {{ car['chassi_reduzido'] }}</p>
+                <p><strong>Data e Hora de Entrega:</strong> {{ car['data_hora_entrega'] }}</p>
+                <!-- Mudança de loop.index0 para car['id'] -->
+                <a href="{{ url_for('car_details', car_id=car['id']) }}">Ver Detalhes</a>
+            </li>
+            {% endfor %}
+        </ul>
 
-    <a href="{{ url_for('add_car') }}">Adicionar Novo Carro</a>
+        <a href="{{ url_for('add_car') }}" class="btn-add-car">Adicionar Novo Carro</a>
+    </div>
 </body>
 </html>

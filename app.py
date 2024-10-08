@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import json
 import os
 from datetime import datetime
+import uuid  # Importando para gerar IDs únicos
 
 app = Flask(__name__)
 
@@ -69,6 +70,7 @@ def index():
 def add_car():
     if request.method == 'POST':
         car = {
+            'id': str(uuid.uuid4()),  # Gerando ID único para o carro
             'vendedor': request.form['vendedor'],
             'model': request.form['model'],
             'color': request.form['color'],
@@ -91,12 +93,12 @@ def add_car():
     return render_template('add_car.html')
 
 # Rota para visualizar detalhes do carro e gerenciar informações
-@app.route('/car/<int:car_id>', methods=['GET', 'POST'])
+@app.route('/car/<string:car_id>', methods=['GET', 'POST'])
 def car_details(car_id):
     cars = load_cars()
-    if 0 <= car_id < len(cars):
-        car = cars[car_id]
+    car = next((c for c in cars if c['id'] == car_id), None)  # Procurando o carro pelo ID único
 
+    if car:
         # Garantindo que os campos 'acessorios', 'servicos_estetica', 'consultor' e 'entrega' existam
         if 'acessorios' not in car:
             car['acessorios'] = []
@@ -166,6 +168,7 @@ def car_details(car_id):
             save_cars(cars)
 
         return render_template('details.html', car=car, car_id=car_id)
+    
     return "Carro não encontrado", 404
 
 if __name__ == '__main__':
