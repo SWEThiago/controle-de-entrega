@@ -252,11 +252,51 @@ h1, h2, h3 {
     color: inherit !important;
 }
 
-
 /* Desabilitado */
 .desabilitado-details {
     pointer-events: none;
     opacity: 0.6;
+}
+
+/* Ajuste para o layout dos itens: Descrição, Tipo e Status */
+.item-status-details p {
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Garantir que os campos de Tipo e Status estejam em uma linha separada e centralizados */
+.editable-form-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.editable-form-details select {
+    padding: 5px;
+    margin-bottom: 10px;
+    width: 100%; /* Para garantir que os selects fiquem proporcionais */
+}
+
+.editable-form-details label {
+    margin-bottom: 5px;
+}
+
+.editable-form-details .form-group {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.editable-form-details select {
+    width: 48%; /* Para garantir que os selects fiquem proporcionais */
+}
+
+/* Botão de excluir isolado */
+.btn-delete-details {
+    margin-top: 10px;
 }
 
 /* Responsividade */
@@ -284,5 +324,14 @@ h1, h2, h3 {
 
     .btn-back-details {
         padding: 8px;
+    }
+
+    .editable-form-details .form-group {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .editable-form-details select {
+        width: 100%;
     }
 }

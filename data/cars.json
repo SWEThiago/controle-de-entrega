@@ -12,11 +12,17 @@
             {
                 "descricao": "teste 1",
                 "tipo": "Cortesia",
-                "status": "Aguardando Pe\u00e7a"
+                "status": "Feito"
             }
         ],
-        "servicos_estetica": [],
+        "servicos_estetica": [
+            {
+                "descricao": "dddd",
+                "tipo": "Cortesia",
+                "status": "Feito"
+            }
+        ],
         "consultor": "",
-        "entrega": "nao"
+        "entrega": "sim"
     }
 ]

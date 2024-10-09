@@ -4,166 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Carro</title>
-    <style>
-        /* Estilos exclusivos da página de detalhes */
-        body.details-page {
-            background-color: #2c2c2c;
-            color: #f0f0f0;
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container-details {
-            background-color: #3c3c3c;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-            width: 90%;
-            max-width: 500px;
-            margin-bottom: 20px;
-        }
-
-        h1, h2, h3 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #ffffff;
-        }
-
-        /* Estilos do formulário */
-        .details-form {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 20px;
-        }
-
-        .details-form label {
-            color: #ffffff;
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
-        .details-form input,
-        .details-form select {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #999999;
-            border-radius: 5px;
-            background-color: #f0f0f0;
-            color: #333333;
-            box-sizing: border-box;
-            margin-bottom: 15px;
-        }
-
-        .btn-submit-details {
-            background-color: #20c997;
-            color: #ffffff;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-            margin-top: 10px;
-        }
-
-        .btn-submit-details:hover {
-            background-color: #17a085;
-        }
-
-        .btn-delete-details {
-            background-color: #e74c3c;
-            color: #ffffff;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-delete-details:hover {
-            background-color: #c0392b;
-        }
-
-        .btn-back-details {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #555555;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-back-details:hover {
-            background-color: #444444;
-        }
-
-        .item-status-details {
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            list-style-type: none;
-        }
-
-        .status-aguardando-details {
-            background-color: rgba(255, 255, 0, 0.2);
-            color: black;
-        }
-
-        .status-instalando-details {
-            background-color: rgba(255, 255, 0, 0.2);
-            color: black;
-        }
-
-        .status-feito-details {
-            background-color: rgba(0, 128, 0, 0.2);
-            color: white;
-        }
-
-        .entrega-completa-details {
-            background-color: transparent !important;
-            color: inherit;
-        }
-
-        .desabilitado-details {
-            pointer-events: none;
-            opacity: 0.6;
-        }
-
-        @media (max-width: 768px) {
-            .container-details {
-                width: 100%;
-                padding: 15px;
-            }
-
-            h1, h2, h3 {
-                font-size: 24px;
-            }
-
-            .details-form input,
-            .details-form select {
-                font-size: 14px;
-                padding: 8px;
-            }
-
-            .btn-submit-details,
-            .btn-delete-details {
-                padding: 8px;
-                font-size: 14px;
-            }
-
-            .btn-back-details {
-                padding: 8px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script>
         function aplicarEstadoEntrega(checkbox) {
             const items = document.querySelectorAll('.item-status-details');
@@ -250,9 +91,8 @@
         <ul>
             {% for acessorio in car['acessorios'] %}
             <li class="item-status-details {% if acessorio['status'] == 'Feito' %}status-feito-details{% elif acessorio['status'] in ['Aguardando Peça', 'Instalando'] %}status-aguardando-details{% endif %}">
-                {{ acessorio['descricao'] }}
-                <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" class="editable-form-details" style="display: inline;">
-                    <input type="hidden" name="update_acessorio" value="{{ loop.index0 }}">
+                <p>{{ acessorio['descricao'] }}</p>
+                <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" class="editable-form-details">
                     <label>Tipo:</label>
                     <select name="tipo_acessorio" onchange="this.form.submit()">
                         <option value="Cortesia" {% if acessorio['tipo'] == 'Cortesia' %}selected{% endif %}>Cortesia</option>
@@ -265,7 +105,7 @@
                         <option value="Instalando" {% if acessorio['status'] == 'Instalando' %}selected{% endif %}>Instalando</option>
                     </select>
                 </form>
-                <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" style="display: inline;">
+                <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}">
                     <input type="hidden" name="remove_acessorio" value="{{ loop.index0 }}">
                     <button type="submit" class="btn-delete-details">Excluir</button>
                 </form>
@@ -277,9 +117,8 @@
         <ul>
             {% for servico in car['servicos_estetica'] %}
             <li class="item-status-details {% if servico['status'] == 'Feito' %}status-feito-details{% elif servico['status'] in ['Aguardando Peça', 'Instalando'] %}status-aguardando-details{% endif %}">
-                {{ servico['descricao'] }}
-                <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" class="editable-form-details" style="display: inline;">
-                    <input type="hidden" name="update_servico" value="{{ loop.index0 }}">
+                <p>{{ servico['descricao'] }}</p>
+                <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" class="editable-form-details">
                     <label>Tipo:</label>
                     <select name="tipo_servico" onchange="this.form.submit()">
                         <option value="Cortesia" {% if servico['tipo'] == 'Cortesia' %}selected{% endif %}>Cortesia</option>
@@ -292,7 +131,7 @@
                         <option value="Instalando" {% if servico['status'] == 'Instalando' %}selected{% endif %}>Instalando</option>
                     </select>
                 </form>
-                <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" style="display: inline;">
+                <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}">
                     <input type="hidden" name="remove_servico" value="{{ loop.index0 }}">
                     <button type="submit" class="btn-delete-details">Excluir</button>
                 </form>
