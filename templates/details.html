@@ -93,17 +93,20 @@
             <li class="item-status-details {% if acessorio['status'] == 'Feito' %}status-feito-details{% elif acessorio['status'] in ['Aguardando Peça', 'Instalando'] %}status-aguardando-details{% endif %}">
                 <p>{{ acessorio['descricao'] }}</p>
                 <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" class="editable-form-details">
-                    <label>Tipo:</label>
-                    <select name="tipo_acessorio" onchange="this.form.submit()">
-                        <option value="Cortesia" {% if acessorio['tipo'] == 'Cortesia' %}selected{% endif %}>Cortesia</option>
-                        <option value="$" {% if acessorio['tipo'] == '$' %}selected{% endif %}>$</option>
-                    </select>
-                    <label>Status:</label>
-                    <select name="status_acessorio" onchange="this.form.submit()">
-                        <option value="Aguardando Peça" {% if acessorio['status'] == 'Aguardando Peça' %}selected{% endif %}>Aguardando Peça</option>
-                        <option value="Feito" {% if acessorio['status'] == 'Feito' %}selected{% endif %}>Feito</option>
-                        <option value="Instalando" {% if acessorio['status'] == 'Instalando' %}selected{% endif %}>Instalando</option>
-                    </select>
+                    <input type="hidden" name="update_acessorio" value="{{ loop.index0 }}">
+                    <div class="form-inline"> <!-- Novo contêiner para alinhar os campos -->
+                        <label>Tipo:</label>
+                        <select name="tipo_acessorio" onchange="this.form.submit()">
+                            <option value="Cortesia" {% if acessorio['tipo'] == 'Cortesia' %}selected{% endif %}>Cortesia</option>
+                            <option value="$" {% if acessorio['tipo'] == '$' %}selected{% endif %}>$</option>
+                        </select>
+                        <label>Status:</label>
+                        <select name="status_acessorio" onchange="this.form.submit()">
+                            <option value="Aguardando Peça" {% if acessorio['status'] == 'Aguardando Peça' %}selected{% endif %}>Aguardando Peça</option>
+                            <option value="Feito" {% if acessorio['status'] == 'Feito' %}selected{% endif %}>Feito</option>
+                            <option value="Instalando" {% if acessorio['status'] == 'Instalando' %}selected{% endif %}>Instalando</option>
+                        </select>
+                    </div>
                 </form>
                 <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}">
                     <input type="hidden" name="remove_acessorio" value="{{ loop.index0 }}">
@@ -112,24 +115,26 @@
             </li>
             {% endfor %}
         </ul>
-
+        
         <h2>Serviços de Estética</h2>
         <ul>
             {% for servico in car['servicos_estetica'] %}
             <li class="item-status-details {% if servico['status'] == 'Feito' %}status-feito-details{% elif servico['status'] in ['Aguardando Peça', 'Instalando'] %}status-aguardando-details{% endif %}">
                 <p>{{ servico['descricao'] }}</p>
                 <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" class="editable-form-details">
-                    <label>Tipo:</label>
-                    <select name="tipo_servico" onchange="this.form.submit()">
-                        <option value="Cortesia" {% if servico['tipo'] == 'Cortesia' %}selected{% endif %}>Cortesia</option>
-                        <option value="$" {% if servico['tipo'] == '$' %}selected{% endif %}>$</option>
-                    </select>
-                    <label>Status:</label>
-                    <select name="status_servico" onchange="this.form.submit()">
-                        <option value="Aguardando Peça" {% if servico['status'] == 'Aguardando Peça' %}selected{% endif %}>Aguardando Peça</option>
-                        <option value="Feito" {% if servico['status'] == 'Feito' %}selected{% endif %}>Feito</option>
-                        <option value="Instalando" {% if servico['status'] == 'Instalando' %}selected{% endif %}>Instalando</option>
-                    </select>
+                    <div class="form-inline"> <!-- Novo contêiner para alinhar os campos -->
+                        <label>Tipo:</label>
+                        <select name="tipo_servico" onchange="this.form.submit()">
+                            <option value="Cortesia" {% if servico['tipo'] == 'Cortesia' %}selected{% endif %}>Cortesia</option>
+                            <option value="$" {% if servico['tipo'] == '$' %}selected{% endif %}>$</option>
+                        </select>
+                        <label>Status:</label>
+                        <select name="status_servico" onchange="this.form.submit()">
+                            <option value="Aguardando Peça" {% if servico['status'] == 'Aguardando Peça' %}selected{% endif %}>Aguardando Peça</option>
+                            <option value="Feito" {% if servico['status'] == 'Feito' %}selected{% endif %}>Feito</option>
+                            <option value="Instalando" {% if servico['status'] == 'Instalando' %}selected{% endif %}>Instalando</option>
+                        </select>
+                    </div>
                 </form>
                 <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}">
                     <input type="hidden" name="remove_servico" value="{{ loop.index0 }}">
@@ -138,6 +143,7 @@
             </li>
             {% endfor %}
         </ul>
+        
 
         <h3>Entrega do Carro</h3>
         <form id="form-entrega" method="POST" action="{{ url_for('car_details', car_id=car_id) }}">

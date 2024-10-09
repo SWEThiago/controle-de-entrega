@@ -81,6 +81,10 @@
             color: #ffffff;
         }
 
+        ul.car-list li p {
+            margin: 5px 0;
+        }
+
         /* As cores de status dos carros serão aplicadas pela lógica do backend */
         .car-pronto {
             background-color: rgba(0, 128, 0, 0.2) !important;
@@ -148,6 +152,19 @@
                 font-size: 14px;
             }
         }
+
+        /* Estilo para data e hora na mesma linha */
+        .data-hora-entrega {
+            display: inline;
+            font-weight: bold;
+            color: #f0f0f0; /* Cor igual ao restante do texto */
+        }
+
+        /* Espaçamento entre data e botão */
+        .car-list li a {
+            margin-top: 10px;
+            display: inline-block;
+        }
     </style>
 </head>
 <body class="index-page">
@@ -157,9 +174,9 @@
         <!-- Filtro de Data -->
         <form method="GET" class="filter-form">
             <label>Data Início:</label>
-            <input type="date" name="start_date" value="{{ start_date }}">
+            <input type="date" name="start_date" value="{{ start_date|default('', true) }}">
             <label>Data Fim:</label>
-            <input type="date" name="end_date" value="{{ end_date }}">
+            <input type="date" name="end_date" value="{{ end_date|default('', true) }}">
             <button type="submit">Filtrar</button>
         </form>
 
@@ -168,8 +185,7 @@
             <li class="{% if car['status_geral'] == 'pronto' %}car-pronto{% elif car['status_geral'] == 'pendente' %}car-pendente{% elif car['status_geral'] == 'entregue' %}car-entregue{% endif %}">
                 <p><strong>Modelo:</strong> {{ car['model'] }}</p>
                 <p><strong>Chassi Reduzido:</strong> {{ car['chassi_reduzido'] }}</p>
-                <p><strong>Data e Hora de Entrega:</strong> {{ car['data_hora_entrega'] }}</p>
-                <!-- Mudança de loop.index0 para car['id'] -->
+                <p><strong>Data e Hora de Entrega:</strong> <span class="data-hora-entrega">{{ car['data_hora_entrega']|default('', true)|datetimeformat('%d/%m/%Y %H:%M') }}</span></p>
                 <a href="{{ url_for('car_details', car_id=car['id']) }}">Ver Detalhes</a>
             </li>
             {% endfor %}

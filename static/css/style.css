@@ -192,19 +192,23 @@ h1, h2, h3 {
 
 /* Botão de excluir */
 .btn-delete-details {
-    background-color: #e74c3c; /* Vermelho */
+    background-color: #555555; /* cinza */
     color: #ffffff;
-    padding: 10px 15px;
+    padding: 0.3px 1px; /* Tornando o botão mais fino */
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
+    width: 100%; /* O botão agora ocupa toda a largura */
+    box-sizing: border-box; /* Garante que o padding seja incluído na largura */
+    margin-top: 12px;
 }
 
 .btn-delete-details:hover {
     background-color: #c0392b;
 }
+
 
 /* Botão de voltar */
 .btn-back-details {
@@ -234,12 +238,12 @@ h1, h2, h3 {
 /* Cores de status */
 .status-aguardando-details {
     background-color: rgba(255, 255, 0, 0.2) !important;
-    color: black !important;
+    color: white !important;
 }
 
 .status-instalando-details {
     background-color: rgba(255, 187, 0, 0.2) !important;
-    color: black !important;
+    color: white !important;
 }
 
 .status-feito-details {
@@ -265,39 +269,41 @@ h1, h2, h3 {
     margin-bottom: 10px;
 }
 
-/* Garantir que os campos de Tipo e Status estejam em uma linha separada e centralizados */
-.editable-form-details {
+/* Garantir que os campos de Tipo e Status estejam na mesma linha */
+.form-inline {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between; /* Dividir o espaço de forma equilibrada */
     align-items: center;
-    margin-bottom: 15px;
+    width: 100%;
+    gap: 10px;  /* Espaço entre os campos */
+}
+
+/* Estilização dos selects para terem o mesmo tamanho */
+.form-inline select {
+    flex: 1;  /* O select vai ocupar espaço proporcional */
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+/* Estilização dos labels */
+.form-inline label {
+    margin-right: 5px;
+    font-size: 14px;
+    color: #fff;
 }
 
 .editable-form-details select {
-    padding: 5px;
-    margin-bottom: 10px;
-    width: 100%; /* Para garantir que os selects fiquem proporcionais */
-}
-
-.editable-form-details label {
-    margin-bottom: 5px;
+    width: 38%; /* Campos "Tipo" e "Status" ocupando o mesmo espaço */
+    box-sizing: border-box;
 }
 
 .editable-form-details .form-group {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    margin-bottom: 10px;
 }
 
-.editable-form-details select {
-    width: 48%; /* Para garantir que os selects fiquem proporcionais */
-}
-
-/* Botão de excluir isolado */
-.btn-delete-details {
-    margin-top: 10px;
-}
 
 /* Responsividade */
 @media (max-width: 768px) {
@@ -326,12 +332,13 @@ h1, h2, h3 {
         padding: 8px;
     }
 
-    .editable-form-details .form-group {
-        flex-direction: column;
-        align-items: center;
+    /* Ajuste dos campos no mobile */
+    .form-inline {
+        flex-direction: column;  /* Empilha os elementos no mobile */
+        align-items: flex-start;
     }
 
-    .editable-form-details select {
-        width: 100%;
+    .form-inline select {
+        width: 100%;  /* O select ocupa 100% da largura no mobile */
     }
 }

@@ -6,6 +6,13 @@ import uuid  # Importando para gerar IDs únicos
 
 app = Flask(__name__)
 
+@app.template_filter('datetimeformat')
+def datetimeformat(value, format='%d/%m/%Y %H:%M'):
+    if isinstance(value, str):
+        value = datetime.strptime(value, '%Y-%m-%dT%H:%M')
+    return value.strftime(format)
+
+
 # Caminho do arquivo JSON
 JSON_FILE = 'data/cars.json'
 
@@ -142,24 +149,24 @@ def car_details(car_id):
             if 'update_acessorio' in request.form:
                 acessorio_index = int(request.form['update_acessorio'])
                 if 0 <= acessorio_index < len(car['acessorios']):
-                    car['acessorios'][acessorio_index]['tipo'] = request.form['tipo_acessorio']
-                    car['acessorios'][acessorio_index]['status'] = request.form['status_acessorio']
+                    car['acessorios'][acessorio_index]['tipo'] = request.form.get('tipo_acessorio', car['acessorios'][acessorio_index]['tipo'])
+                    car['acessorios'][acessorio_index]['status'] = request.form.get('status_acessorio', car['acessorios'][acessorio_index]['status'])
 
             # Atualizar tipo e status dos serviços de estética
             if 'update_servico' in request.form:
                 servico_index = int(request.form['update_servico'])
                 if 0 <= servico_index < len(car['servicos_estetica']):
-                    car['servicos_estetica'][servico_index]['tipo'] = request.form['tipo_servico']
-                    car['servicos_estetica'][servico_index]['status'] = request.form['status_servico']
+                    car['servicos_estetica'][servico_index]['tipo'] = request.form.get('tipo_servico', car['servicos_estetica'][servico_index]['tipo'])
+                    car['servicos_estetica'][servico_index]['status'] = request.form.get('status_servico', car['servicos_estetica'][servico_index]['status'])
 
             # Remover acessório
-            elif 'remove_acessorio' in request.form:
+            if 'remove_acessorio' in request.form:
                 acessorio_index = int(request.form['remove_acessorio'])
                 if 0 <= acessorio_index < len(car['acessorios']):
                     del car['acessorios'][acessorio_index]
 
             # Remover serviço de estética
-            elif 'remove_servico' in request.form:
+            if 'remove_servico' in request.form:
                 servico_index = int(request.form['remove_servico'])
                 if 0 <= servico_index < len(car['servicos_estetica']):
                     del car['servicos_estetica'][servico_index]
@@ -167,9 +174,12 @@ def car_details(car_id):
             # Salva as alterações no JSON
             save_cars(cars)
 
+        # Renderiza a página de detalhes do carro
         return render_template('details.html', car=car, car_id=car_id)
-    
+
+    # Caso o carro não seja encontrado
     return "Carro não encontrado", 404
+
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
