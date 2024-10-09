@@ -294,7 +294,7 @@ h1, h2, h3 {
 }
 
 .editable-form-details select {
-    width: 38%; /* Campos "Tipo" e "Status" ocupando o mesmo espaço */
+    width: 18%; /* Campos "Tipo" e "Status" ocupando o mesmo espaço */
     box-sizing: border-box;
 }
 
@@ -341,4 +341,5 @@ h1, h2, h3 {
     .form-inline select {
         width: 100%;  /* O select ocupa 100% da largura no mobile */
     }
+    
 }
