@@ -12,7 +12,6 @@ def datetimeformat(value, format='%d/%m/%Y %H:%M'):
         value = datetime.strptime(value, '%Y-%m-%dT%H:%M')
     return value.strftime(format)
 
-
 # Caminho do arquivo JSON
 JSON_FILE = 'data/cars.json'
 

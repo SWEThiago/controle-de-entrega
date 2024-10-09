@@ -122,6 +122,7 @@
             <li class="item-status-details {% if servico['status'] == 'Feito' %}status-feito-details{% elif servico['status'] in ['Aguardando Peça', 'Instalando'] %}status-aguardando-details{% endif %}">
                 <p>{{ servico['descricao'] }}</p>
                 <form method="POST" action="{{ url_for('car_details', car_id=car_id) }}" class="editable-form-details">
+                    <input type="hidden" name="update_servico" value="{{ loop.index0 }}">
                     <div class="form-inline"> <!-- Novo contêiner para alinhar os campos -->
                         <label>Tipo:</label>
                         <select name="tipo_servico" onchange="this.form.submit()">
@@ -143,7 +144,6 @@
             </li>
             {% endfor %}
         </ul>
-        
 
         <h3>Entrega do Carro</h3>
         <form id="form-entrega" method="POST" action="{{ url_for('car_details', car_id=car_id) }}">

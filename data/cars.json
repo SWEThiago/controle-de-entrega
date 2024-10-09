@@ -1,1 +1,28 @@
-[]
+[
+    {
+        "id": "9f0a4974-0c2a-4441-bdef-30f3dbc2d425",
+        "vendedor": "thiago",
+        "model": "Jeep Renegate",
+        "color": "preta",
+        "chassi_reduzido": "KR8494",
+        "cliente": "Laura",
+        "status_chegada": "Aguardando Chegada",
+        "data_hora_entrega": "2024-10-09T15:33",
+        "acessorios": [
+            {
+                "descricao": "Capota paralela",
+                "tipo": "$",
+                "status": "Feito"
+            }
+        ],
+        "servicos_estetica": [
+            {
+                "descricao": "Estribo original",
+                "tipo": "$",
+                "status": "Feito"
+            }
+        ],
+        "consultor": "Leticia",
+        "entrega": "sim"
+    }
+]
